@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'category_list.dart';
 
 class BackLayer extends StatelessWidget {
-  const BackLayer({super.key});
+  BackLayer({super.key});
+
+  // dummy categories
+  final categories = [
+    'Music',
+    'Nogizaka46',
+    'Technology',
+    'Education',
+    'Movie & Series'
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 320,
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: const Center(
-        child: Text('Back Layer'),
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const ListTile(
+          title: Text('Home'),
+        ),
+        CategoryList(categories: categories),
+      ],
     );
   }
 }

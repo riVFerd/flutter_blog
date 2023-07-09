@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      backLayer: const BackLayer(),
+      backLayer: BackLayer(),
       frontLayer: const FrontLayer(),
     );
   }
