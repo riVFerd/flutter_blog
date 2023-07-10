@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 abstract final class ThemeConstants {
+  static const textTheme = TextTheme();
+
   static final lightThemeData = ThemeData(
     brightness: Brightness.light,
     useMaterial3: true,
     primaryColor: const Color(0xFFFBFBFB),
+    textTheme: textTheme,
     colorScheme: const ColorScheme(
       primary: Color(0xFFFBFBFB),
       secondary: Color(0xFFE0E0E0),
@@ -17,6 +20,7 @@ abstract final class ThemeConstants {
       onBackground: Color(0xFF262626),
       onError: Color(0xFFFBFBFB),
       brightness: Brightness.light,
+      onTertiary: Color(0xFF007aff),
     ),
   );
 
@@ -24,6 +28,7 @@ abstract final class ThemeConstants {
     brightness: Brightness.dark,
     useMaterial3: true,
     primaryColor: const Color(0xFF262626),
+    textTheme: textTheme,
     colorScheme: const ColorScheme(
       primary: Color(0xFF262626),
       secondary: Color(0xFF363636),
@@ -36,6 +41,7 @@ abstract final class ThemeConstants {
       onBackground: Color(0xFFFBFBFB),
       onError: Color(0xFFFBFBFB),
       brightness: Brightness.dark,
+      onTertiary: Color(0xFF007aff),
     ),
   );
 }

@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeConstants.lightThemeData,
             darkTheme: ThemeConstants.darkThemeData,
             onGenerateRoute: AppRouter().onGenerateRoute,
+            debugShowCheckedModeBanner: false,
           );
         },
       ),

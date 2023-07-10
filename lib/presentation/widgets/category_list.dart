@@ -14,6 +14,7 @@ class _CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
     return ExpansionPanelList(
+      elevation: 0,
       expansionCallback: (index, isExpanded) {
         setState(() => _isExpanded = !_isExpanded);
       },

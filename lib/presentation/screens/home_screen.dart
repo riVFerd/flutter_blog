@@ -50,6 +50,8 @@ class HomeScreen extends StatelessWidget {
       ),
       backLayer: BackLayer(),
       frontLayer: const FrontLayer(),
+      frontLayerBackgroundColor: Theme.of(context).colorScheme.secondary,
+      frontLayerScrim: Theme.of(context).colorScheme.primary.withOpacity(0.7),
     );
   }
 }
