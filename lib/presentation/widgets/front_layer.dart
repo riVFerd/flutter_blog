@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blog/logic/bloc/posts_bloc.dart';
 import 'package:flutter_blog/logic/models/post_model.dart';
 
 import 'post_card.dart';
@@ -8,6 +10,11 @@ class FrontLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var currentPageIndex = 0;
+    if (context.read<PostsBloc>().state is! PostsLoaded) {
+      context.read<PostsBloc>().add(FetchPosts(pageIndex: currentPageIndex));
+    }
+
     return Column(
       children: [
         Center(
@@ -20,20 +27,34 @@ class FrontLayer extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: ListView.separated(
-            itemCount: 5,
-            itemBuilder: (context, index) => PostCard(
-              post: PostModel(
-                id: index,
-                title:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                author: 'riVFerd',
-                date: '${++index}/10/2023',
-                imageUrl: 'https://source.unsplash.com/1080x720/?{news}',
-              ),
-            ),
-            padding: const EdgeInsets.all(8),
-            separatorBuilder: (context, index) => const SizedBox(height: 16),
+          child: BlocBuilder<PostsBloc, PostsState>(
+            builder: (context, state) {
+              if (state is PostsLoaded) {
+                return ListView.separated(
+                  itemCount: state.posts.length,
+                  itemBuilder: (context, index) => PostCard(
+                    post: PostModel(
+                      title: state.posts[index].title,
+                      author: state.posts[index].author,
+                      date: state.posts[index].date,
+                      imageUrl: state.posts[index].imageUrl,
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 16);
+                  },
+                );
+              } else if (state is PostsError) {
+                return Center(
+                  child: Text(state.message),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
           ),
         ),
       ],

@@ -9,7 +9,6 @@ class BackLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // make below code to only run once (when the state of CategoriesBloc is not CategoriesLoaded)
     if (context.read<CategoriesBloc>().state is! CategoriesLoaded) context.read<CategoriesBloc>().add(FetchCategories());
 
     return Column(
