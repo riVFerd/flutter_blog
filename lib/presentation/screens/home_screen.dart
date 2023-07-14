@@ -1,7 +1,7 @@
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_blog/logic/cubit/theme_cubit.dart';
+import 'package:flutter_blog/logic/bloc/theme_bloc.dart';
 
 import '../widgets/back_layer.dart';
 import '../widgets/front_layer.dart';
@@ -11,6 +11,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('HOMESCREEN REBUILD !!!!');
+
     return BackdropScaffold(
       stickyFrontLayer: true,
       appBar: BackdropAppBar(
@@ -31,17 +33,13 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
         actions: [
-          BlocBuilder<ThemeCubit, ThemeState>(
-            builder: (context, state) {
-              return IconButton(
-                onPressed: () => context.read<ThemeCubit>().toggleTheme(),
-                icon: Icon(
-                  state.themeMode == ThemeMode.light
-                      ? Icons.light_mode
-                      : Icons.dark_mode,
-                ),
-              );
-            },
+          IconButton(
+            onPressed: () => context.read<ThemeBloc>().add(ChangeTheme()),
+            icon: Icon(
+              context.read<ThemeBloc>().state.themeMode == ThemeMode.light
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
           ),
           BackdropToggleButton(
             color: Theme.of(context).colorScheme.onPrimary,

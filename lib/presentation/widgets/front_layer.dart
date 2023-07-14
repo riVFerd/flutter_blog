@@ -10,10 +10,16 @@ class FrontLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var currentPageIndex = 0;
-    if (context.read<PostsBloc>().state is! PostsLoaded) {
-      context.read<PostsBloc>().add(FetchPosts(pageIndex: currentPageIndex));
+    final postBloc = context.read<PostsBloc>();
+    int currentPageIndex = 0;
+    List<PostModel> posts = [];
+
+    void fetchPostData() {
+      postBloc.add(FetchPosts(pageIndex: currentPageIndex));
+      currentPageIndex++;
     }
+
+    if (postBloc.state is! PostsLoaded) fetchPostData();
 
     return Column(
       children: [
@@ -30,20 +36,41 @@ class FrontLayer extends StatelessWidget {
           child: BlocBuilder<PostsBloc, PostsState>(
             builder: (context, state) {
               if (state is PostsLoaded) {
-                return ListView.separated(
-                  itemCount: state.posts.length,
-                  itemBuilder: (context, index) => PostCard(
-                    post: PostModel(
-                      title: state.posts[index].title,
-                      author: state.posts[index].author,
-                      date: state.posts[index].date,
-                      imageUrl: state.posts[index].imageUrl,
+                posts.addAll((postBloc.state as PostsLoaded).posts);
+
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                        itemCount: posts.length,
+                        itemBuilder: (context, index) => PostCard(
+                          post: PostModel(
+                            title: posts[index].title,
+                            author: posts[index].author,
+                            date: posts[index].date,
+                            imageUrl: posts[index].imageUrl,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(8),
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(height: 16);
+                        },
+                      ),
                     ),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 16);
-                  },
+                    Visibility(
+                      visible: !(postBloc.state as PostsLoaded).hasReachedMax,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
+                        ),
+                        onPressed: () => fetchPostData(),
+                        child: const Text('Load More'),
+                      ),
+                    ),
+                  ],
                 );
               } else if (state is PostsError) {
                 return Center(
