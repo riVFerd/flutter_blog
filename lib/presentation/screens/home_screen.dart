@@ -11,8 +11,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('HOMESCREEN REBUILD !!!!');
-
     return BackdropScaffold(
       stickyFrontLayer: true,
       appBar: BackdropAppBar(

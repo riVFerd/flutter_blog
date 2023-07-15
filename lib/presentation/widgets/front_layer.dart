@@ -11,15 +11,10 @@ class FrontLayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final postBloc = context.read<PostsBloc>();
-    int currentPageIndex = 0;
-    List<PostModel> posts = [];
 
-    void fetchPostData() {
-      postBloc.add(FetchPosts(pageIndex: currentPageIndex));
-      currentPageIndex++;
-    }
+    void fetchPostData(int pageIndex) => postBloc.add(FetchPosts(pageIndex));
 
-    if (postBloc.state is! PostsLoaded) fetchPostData();
+    if (postBloc.state is! PostsLoaded) fetchPostData(0);
 
     return Column(
       children: [
@@ -36,8 +31,7 @@ class FrontLayer extends StatelessWidget {
           child: BlocBuilder<PostsBloc, PostsState>(
             builder: (context, state) {
               if (state is PostsLoaded) {
-                posts.addAll((postBloc.state as PostsLoaded).posts);
-
+                final posts = state.posts;
                 return Column(
                   children: [
                     Expanded(
@@ -58,7 +52,7 @@ class FrontLayer extends StatelessWidget {
                       ),
                     ),
                     Visibility(
-                      visible: !(postBloc.state as PostsLoaded).hasReachedMax,
+                      visible: !state.hasReachedMax,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           foregroundColor:
@@ -66,7 +60,7 @@ class FrontLayer extends StatelessWidget {
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
                         ),
-                        onPressed: () => fetchPostData(),
+                        onPressed: () => fetchPostData(state.currentPageIndex + 1),
                         child: const Text('Load More'),
                       ),
                     ),

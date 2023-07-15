@@ -1,33 +1,39 @@
 part of 'posts_bloc.dart';
 
 @immutable
-abstract class PostsState extends Equatable {}
-
-class PostsInitial extends PostsState {
-  @override
-  List<Object?> get props => [];
-}
-
-class PostsLoading extends PostsState {
-  @override
-  List<Object?> get props => [];
-}
-
-class PostsLoaded extends PostsState {
+abstract class PostsState extends Equatable {
   final List<PostModel> posts;
   final bool hasReachedMax;
+  final int currentPageIndex;
 
-  PostsLoaded({required this.posts, this.hasReachedMax = false});
+  const PostsState({
+    this.posts = const [],
+    this.hasReachedMax = false,
+    this.currentPageIndex = 0,
+  });
 
   @override
-  List<Object?> get props => [posts, hasReachedMax];
+  List<Object?> get props => [posts, hasReachedMax, currentPageIndex];
+}
+
+class PostsInitial extends PostsState {}
+
+class PostsLoading extends PostsState {}
+
+class PostsLoaded extends PostsState {
+  const PostsLoaded({
+    required List<PostModel> posts,
+    bool hasReachedMax = false,
+    required currentPageIndex,
+  }) : super(
+          posts: posts,
+          hasReachedMax: hasReachedMax,
+          currentPageIndex: currentPageIndex,
+        );
 }
 
 class PostsError extends PostsState {
   final String message;
 
-  PostsError({required this.message});
-
-  @override
-  List<Object?> get props => [message];
+  const PostsError({required this.message});
 }

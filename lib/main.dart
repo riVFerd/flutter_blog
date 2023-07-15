@@ -24,14 +24,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ThemeBloc, ThemeState>(
-      listener: (context, state) {
-        context.read<PostsBloc>().add(
-              RefreshPosts(
-                posts: (context.read<PostsBloc>().state as PostsLoaded).posts,
-              ),
-            );
-      },
+    return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, state) {
         return MaterialApp(
           title: 'riVFerd',

@@ -1,6 +1,6 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blog/logic/models/category_model.dart';
-import 'package:meta/meta.dart';
 
 part 'categories_event.dart';
 part 'categories_state.dart';
