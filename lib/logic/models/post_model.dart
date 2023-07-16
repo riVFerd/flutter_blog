@@ -25,10 +25,10 @@ class PostModel {
   }
 
   // fetch posts from api, requires page index for pagination
-  static Future<List<PostModel>> getPosts(int pageIndex) async {
+  static Future<List<PostModel>> getPosts(int pageIndex, {String? categorySlug}) async {
     List<PostModel> posts;
     final response =
-        await _dio.get('https://rivferd.my.id/api/postList?page=$pageIndex');
+        await _dio.get('https://rivferd.my.id/api/postList?page=$pageIndex${categorySlug != null ? '&category=$categorySlug' : ''}');
     if (response.statusCode == 200) {
       posts = (response.data as List<dynamic>)
           .map((postJson) => PostModel.fromJson(postJson))

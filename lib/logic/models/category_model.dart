@@ -4,10 +4,12 @@ class CategoryModel {
   CategoryModel({
     required this.categoryId,
     required this.categoryName,
+    required this.categorySlug,
   });
 
   final String categoryId;
   final String categoryName;
+  final String categorySlug;
   static final _dio = Dio();
 
   static Future<List<CategoryModel>> getCategories() async {
@@ -17,6 +19,7 @@ class CategoryModel {
       return CategoryModel(
         categoryId: category['_id'],
         categoryName: category['name'],
+        categorySlug: category['slug']['current'],
       );
     }).toList();
   }

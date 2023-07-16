@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blog/logic/bloc/posts_bloc.dart';
 import 'package:flutter_blog/logic/models/category_model.dart';
 
 class CategoryList extends StatefulWidget {
@@ -36,8 +38,15 @@ class _CategoryListState extends State<CategoryList> {
                   shrinkWrap: true,
                   itemCount: widget.categories.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(widget.categories[index].categoryName),
+                    return GestureDetector(
+                      onTap: () {
+                        context
+                          .read<PostsBloc>()
+                          .add(FetchPostsByCategory(widget.categories[index]));
+                      },
+                      child: ListTile(
+                        title: Text(widget.categories[index].categoryName),
+                      ),
                     );
                   },
                 ),

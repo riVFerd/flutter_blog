@@ -11,3 +11,12 @@ class FetchPosts extends PostsEvent {
   @override
   List<Object?> get props => [pageIndex];
 }
+
+class FetchPostsByCategory extends PostsEvent {
+  final CategoryModel category;
+
+  FetchPostsByCategory(this.category);
+  
+  @override
+  List<Object?> get props => [category];
+}

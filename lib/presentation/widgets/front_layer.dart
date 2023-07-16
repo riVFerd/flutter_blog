@@ -32,6 +32,15 @@ class FrontLayer extends StatelessWidget {
             builder: (context, state) {
               if (state is PostsLoaded) {
                 final posts = state.posts;
+                if (posts.isEmpty) {
+                  return Center(
+                    child: Text(
+                      'No Posts Found',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  );
+                }
+
                 return Column(
                   children: [
                     Expanded(
@@ -60,7 +69,8 @@ class FrontLayer extends StatelessWidget {
                           backgroundColor:
                               Theme.of(context).colorScheme.primary,
                         ),
-                        onPressed: () => fetchPostData(state.currentPageIndex + 1),
+                        onPressed: () =>
+                            fetchPostData(state.currentPageIndex + 1),
                         child: const Text('Load More'),
                       ),
                     ),
