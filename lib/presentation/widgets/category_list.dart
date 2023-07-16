@@ -1,3 +1,4 @@
+import 'package:backdrop/backdrop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blog/logic/bloc/posts_bloc.dart';
@@ -40,9 +41,10 @@ class _CategoryListState extends State<CategoryList> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        context
-                          .read<PostsBloc>()
-                          .add(FetchPostsByCategory(widget.categories[index]));
+                        Backdrop.of(context).fling();
+                        context.read<PostsBloc>().add(
+                              FetchPostsByCategory(widget.categories[index]),
+                            );
                       },
                       child: ListTile(
                         title: Text(widget.categories[index].categoryName),
