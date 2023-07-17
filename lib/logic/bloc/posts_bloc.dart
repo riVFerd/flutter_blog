@@ -40,5 +40,9 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       emit(PostsLoading(category: event.category));
       add(FetchPosts(0));
     });
+    on<ResetPosts>((event, emit) {
+      emit(PostsInitial());
+      add(FetchPosts(0));
+    });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blog/logic/bloc/posts_bloc.dart';
+import 'package:flutter_blog/logic/models/category_model.dart';
 import 'package:flutter_blog/logic/models/post_model.dart';
 
 import 'post_card.dart';
@@ -33,16 +34,24 @@ class FrontLayer extends StatelessWidget {
               if (state is PostsLoaded) {
                 final posts = state.posts;
                 if (posts.isEmpty) {
-                  return Center(
-                    child: Text(
-                      'No Posts Found',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
+                  return Column(
+                    children: [
+                      _CategoryChip(category: state.category),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            'No Posts Found',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 }
 
                 return Column(
                   children: [
+                    _CategoryChip(category: state.category),
                     Expanded(
                       child: ListView.separated(
                         itemCount: posts.length,
@@ -89,6 +98,36 @@ class FrontLayer extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _CategoryChip extends StatelessWidget {
+  const _CategoryChip({this.category});
+
+  final CategoryModel? category;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: category != null,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            'Showing content in category :',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          Chip(
+            onDeleted: () =>
+                BlocProvider.of<PostsBloc>(context).add(ResetPosts()),
+            label: Text(
+              '${category?.categoryName}',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

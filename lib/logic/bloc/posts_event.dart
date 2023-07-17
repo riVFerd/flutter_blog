@@ -3,6 +3,11 @@ part of 'posts_bloc.dart';
 @immutable
 abstract class PostsEvent extends Equatable {}
 
+class ResetPosts extends PostsEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class FetchPosts extends PostsEvent {
   final int pageIndex;
 
