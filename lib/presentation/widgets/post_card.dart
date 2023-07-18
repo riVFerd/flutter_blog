@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/logic/models/post_model.dart';
+import 'package:flutter_blog/presentation/screens/post_detail_screen.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({super.key, required this.post});
@@ -12,56 +13,65 @@ class PostCard extends StatelessWidget {
           color: Theme.of(context).colorScheme.onTertiary,
         );
 
-    return Container(
-      height: 140,
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(8),
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pushNamed(
+        PostDetailScreen.routeName,
+        arguments: post,
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: SizedBox(
-              height: double.infinity,
-              child: Image.network(
-                post.imageUrl,
-                fit: BoxFit.cover,
+      child: Container(
+        height: 140,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: double.infinity,
+                child: Hero(
+                  tag: post.hashCode,
+                  child: Image.network(
+                    post.imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    post.title,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyle?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      post.title,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: textStyle?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        post.date,
-                        style: textStyle,
-                      ),
-                      Text(
-                        post.author,
-                        style: textStyle,
-                      ),
-                    ],
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          post.date,
+                          style: textStyle,
+                        ),
+                        Text(
+                          post.author,
+                          style: textStyle,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
