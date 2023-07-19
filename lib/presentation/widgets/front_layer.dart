@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blog/logic/bloc/posts_bloc.dart';
 import 'package:flutter_blog/logic/models/category_model.dart';
-import 'package:flutter_blog/logic/models/post_model.dart';
 
 import 'post_card.dart';
 
@@ -55,14 +54,9 @@ class FrontLayer extends StatelessWidget {
                     Expanded(
                       child: ListView.separated(
                         itemCount: posts.length,
-                        itemBuilder: (context, index) => PostCard(
-                          post: PostModel(
-                            title: posts[index].title,
-                            author: posts[index].author,
-                            date: posts[index].date,
-                            imageUrl: posts[index].imageUrl,
-                          ),
-                        ),
+                        itemBuilder: (context, index) {
+                          return PostCard(post: posts[index]);
+                        },
                         padding: const EdgeInsets.all(8),
                         separatorBuilder: (context, index) {
                           return const SizedBox(height: 16);

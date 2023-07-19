@@ -22,15 +22,17 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         currentPosts.addAll(newPosts);
         if (newPosts.isEmpty) {
           emit(PostsLoaded(
-              posts: currentPosts,
-              hasReachedMax: true,
-              currentPageIndex: pageIndex,
-              category: currentCategory));
+            posts: currentPosts,
+            hasReachedMax: true,
+            currentPageIndex: pageIndex,
+            category: currentCategory,
+          ));
         } else {
           emit(PostsLoaded(
-              posts: currentPosts,
-              currentPageIndex: pageIndex,
-              category: currentCategory));
+            posts: currentPosts,
+            currentPageIndex: pageIndex,
+            category: currentCategory,
+          ));
         }
       } catch (e) {
         emit(PostsError(message: e.toString()));

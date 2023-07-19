@@ -40,6 +40,8 @@ dependencies:
   dio: ^5.2.1+1
   intl: ^0.18.1
   equatable: ^2.0.5
+  flutter_portabletext: ^0.0.4
+  url_launcher: ^6.1.12
 
 dev_dependencies:
   flutter_test:

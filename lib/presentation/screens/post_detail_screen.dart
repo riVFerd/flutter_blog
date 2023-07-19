@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/logic/models/post_model.dart';
+import 'package:flutter_portabletext/flutter_portabletext.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostDetailScreen extends StatelessWidget {
   const PostDetailScreen({super.key, required this.post});
@@ -15,7 +17,7 @@ class PostDetailScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: ListView(
           children: [
             Text(
               post.title,
@@ -23,7 +25,14 @@ class PostDetailScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             _showImage(),
-            // TODO: Make custom widget to handle post content here
+            // TODO: Customize the PortableTextRichText widget so it can also render image
+            SizedBox(
+              width: double.infinity,
+              child: PortableTextRichText(
+                portableText: post.content,
+                onTapLink: (value) => _launchURL(value!),
+              ),
+            ),
           ],
         ),
       ),
@@ -46,5 +55,14 @@ class PostDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    if (!await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
